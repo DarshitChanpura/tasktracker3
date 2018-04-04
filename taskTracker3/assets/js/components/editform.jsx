@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Button, FormGroup, Label, Input } from 'reactstrap';
 
 import api from '../api';
@@ -21,6 +22,7 @@ export default function EditForm(params){
 
     api.update_task(data);
     //location.replace("/tasklist");
+    document.getElementById('tasklistlink').click();
   }
 
 
@@ -66,6 +68,7 @@ export default function EditForm(params){
           </FormGroup>
           <br/>
           <Button onClick={submit} color="primary">Update Task</Button> &nbsp;
+            <Link to="/tasklist" id="tasklistlink">Back</Link>
 
         </div>);
 }

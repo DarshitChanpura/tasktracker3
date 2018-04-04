@@ -75,7 +75,7 @@ function TaskForm(params) {
 //transforms state into a property to be used by this component
 function state2props(state) {
   console.log("rerender", state);
-  return { form: state.form };
+  return { form: state.form};
 }
 
 export default connect(state2props)(TaskForm);

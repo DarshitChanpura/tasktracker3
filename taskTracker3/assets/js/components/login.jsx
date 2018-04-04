@@ -32,21 +32,25 @@ let LoginForm = connect(({login}) => {return {login};})((props) => {
     console.log(props);
     if(props.login)
     {
-      //location.replace("/tasklist");
+      document.getElementById("redirectToTasklist").click();
     }
     //console.log(props.login);
   }
 
-  return(<Form >
-      <FormGroup>
-        <Input type="email" name="email" placeholder="Email"
-               value={props.login.email} onChange={update} />
-      </FormGroup>
-      <FormGroup>
-        <Input type="password" name="pass" placeholder="Password"
-               value={props.login.pass} onChange={update} />
-      </FormGroup>
-      <Button onClick={log_in}>Log In</Button> &nbsp;
-      <Link to="/register">Register</Link>
-    </Form>);
+  return( <div className="login">
+            <label><h2>Please Sign In</h2></label>
+            <Form >
+              <FormGroup>
+                <Input type="email" name="email" placeholder="Email"
+                       value={props.login.email} onChange={update} />
+              </FormGroup>
+              <FormGroup>
+                <Input type="password" name="pass" placeholder="Password"
+                       value={props.login.pass} onChange={update} />
+              </FormGroup>
+              <Button onClick={log_in}>Log In</Button> &nbsp;
+              <Link to="/register">Register</Link>
+            </Form>
+            <Link to="/tasklist" id="redirectToTasklist" type="hidden"></Link>
+          </div>);
 });
