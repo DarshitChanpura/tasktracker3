@@ -3,39 +3,57 @@ Referred from Lecture Notes
 */
 import React from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Form, FormGroup, NavItem, Input, Button } from 'reactstrap';
 import api from '../api';
 
 let Session = connect(({token}) => {return {token};})((props) => {
+
+  function logout(ev){
+    props.dispatch({
+      type: 'DELETE_TOKEN',
+      token: {
+        user_id: "",
+        user_name: "",
+        token: ""
+      }
+    });
+    location.replace("/");
+  }
+
   return <div className="navbar-text">
-    Welcome, { props.token.user_name }
-  </div>;
+            <label>Welcome, { props.token.user_name }</label> &nbsp;|&nbsp;
+            <Button color="link" onClick={logout}>LogOut</Button>
+          </div>;
 });
 
 function Nav(props) {
-  let session_info="";
+  let nav_items;
+  let session_info;
   if (props.token) {
-    session_info = <nav className="navbar navbar-dark bg-dark navbar-expand">
-                      <span className="navbar-brand">
-                        TaskTracker 3.0
-                      </span>
-                      <ul className="navbar-nav mr-auto">
+    nav_items = <ul className="navbar-nav mr-auto">
                         <NavItem>
                           <NavLink to="/tasklist" exact={true} activeClassName="active" className="nav-link">TaskList</NavLink>
                         </NavItem>
                         <NavItem>
                           <NavLink to="/users" exact={true} activeClassName="active" className="nav-link">All Users</NavLink>
                         </NavItem>
-                      </ul>
-                      <Session token={props.token} />;
-                    </nav>
+                      </ul>;
+    session_info = <Session token={props.token} />;
   }
 
   return (
     <div className="container">
-      { session_info }
-      </div>
+      <nav className="navbar navbar-dark bg-dark navbar-expand">
+        <span className="navbar-brand">
+          TaskTracker 3.0
+        </span>
+        {nav_items}
+        <span>
+        { session_info }
+        </span>
+      </nav>
+    </div>
   );
 }
 

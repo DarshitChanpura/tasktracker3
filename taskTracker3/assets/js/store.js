@@ -25,7 +25,8 @@ import deepFreeze from 'deep-freeze';
  *   login: {
  *     email: string,
  *     pass: string
- *   }
+ *   },
+ *   is_checked: boolean
  * }
  *
  * */
@@ -33,6 +34,8 @@ function token(state = null, action) {
    switch (action.type) {
      case 'SET_TOKEN':
        return action.token;
+     case 'DELETE_TOKEN':
+         return Object.assign({}, state, action.token);;
      default:
        return state;
    }
@@ -99,9 +102,20 @@ function form(state = empty_form, action) {
   }
 }
 
+function is_checked(state = {is_checked: null}, action) {
+  switch (action.type) {
+    case 'INITIAL_VALUE':
+      return Object.assign({}, state, action.is_checked);
+    case 'CHECK_TOGGLED':
+      return Object.assign({}, state, action.is_checked);
+    default:
+      return {is_checked: null};
+  }
+}
+
 function root_reducer(state0, action) {
   //console.log("reducer", action);
-  let reducer = combineReducers({tasks, users, form, token, login});
+  let reducer = combineReducers({tasks, users, form, token, login, is_checked});
   let state1 = reducer(state0, action);
   //console.log("state1", state1);
   return deepFreeze(state1);

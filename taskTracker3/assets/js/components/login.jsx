@@ -29,10 +29,9 @@ let LoginForm = connect(({login}) => {return {login};})((props) => {
   function log_in(ev) {
     ev.preventDefault();
     api.submit_login(props.login);
-    console.log(props);
     if(props.login)
     {
-      document.getElementById("redirectToTasklist").click();
+      //document.getElementById("redirectToTasklist").click();
     }
     //console.log(props.login);
   }

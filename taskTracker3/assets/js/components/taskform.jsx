@@ -4,11 +4,18 @@ Referred from Lecture Notes
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Button, FormGroup, Label, Input } from 'reactstrap';
 
+import TaskList from './tasklist';
 import api from '../api';
 
 function TaskForm(params) {
+
+
+  if(params.login.email == ""){
+    return <div style={{padding: "4ex"}}><Link to="/" id="notloggedin"> LogIn </Link></div>;
+  }
 
   function update(ev) {
     let t = $(ev.target);
@@ -24,19 +31,28 @@ function TaskForm(params) {
       type: 'UPDATE_FORM',
       data: data,
     };
-    //console.log(action);
+
     params.dispatch(action);
   }
 
   function submit() {
-    //console.log("Should create a task.");
-    //console.log(params.form);
+    if(params.form.user_id == "" || params.form.title == "" || params.form.description == "")
+      {
+        alert("Fields cannot be empty!");
+        return;
+      }
+      if(params.form.minutes < 0 || (params.form.minutes % 15) != 0){
+        alert("Minutes should be > 0 and a multiple of 15");
+        return;
+      }
+
     api.submit_task(params.form)
   }
 
   function clear() {
     params.dispatch({ type: 'CLEAR_FORM' });
   }
+
 
   let users = _.map(params.users, (uu) => <option key={uu.id} value={uu.id}>{uu.name}</option>);
   return( <div style={{padding: "4ex"}}>
@@ -62,20 +78,23 @@ function TaskForm(params) {
             </FormGroup>
             <FormGroup check>
               <Label check>
-                <Input type="checkbox" name="completed" checked={params.form.completed} onChange={update}/>
+                <Input type="checkbox" name="completed" checked={params.form.completed == 'true'} onChange={update}/>
                 {' '}Completed
               </Label>
             </FormGroup>
             <br/>
             <Button onClick={submit} color="primary">Assign Task</Button> &nbsp;
             <Button onClick={clear}>Clear Form</Button>
+            <br/><br/><br/>
+            <TaskList tasks={params.tasks} currentUserId={params.token.user_id}/>
           </div>);
 }
 
 //transforms state into a property to be used by this component
 function state2props(state) {
-  console.log("rerender", state);
-  return { form: state.form};
+  return { form: state.form,
+          login: state.login,
+          token: state.token};
 }
 
 export default connect(state2props)(TaskForm);

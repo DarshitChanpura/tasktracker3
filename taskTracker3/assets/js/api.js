@@ -102,6 +102,8 @@ class TheServer {
           type: 'SET_TOKEN',
           token: resp,
         });
+        if(document.getElementById("redirectToTasklist"))
+          document.getElementById("redirectToTasklist").click();
       },
       // error: (msg) => {
       //   store.dispatch({

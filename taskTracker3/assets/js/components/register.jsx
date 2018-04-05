@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Form, FormGroup, NavItem, Input, Button } from 'reactstrap';
 import api from '../api';
 
@@ -22,9 +23,9 @@ function RegisterForm(props){
         email: $("#email").val(),
         password: $("#pass").val(),
     }
-    console.log(user);
+
     api.register_user(user);
-    console.log(props);
+
     if(props.login)
     {
 
@@ -32,17 +33,19 @@ function RegisterForm(props){
     //console.log(props.login);
   }
 
-  return(<Form >
-      <FormGroup>
-        <Input type="text" id="username" name="username" placeholder="Name"/>
-      </FormGroup>
-      <FormGroup>
-        <Input type="email" id="email" name="email" placeholder="Email"/>
-      </FormGroup>
-      <FormGroup>
-        <Input type="password" id="pass" name="pass" placeholder="Password"/>
-      </FormGroup>
-      <Button onClick={register}>Register</Button>
-
-    </Form>);
+  return( <div className="login">
+            <Form >
+              <FormGroup>
+                <Input type="text" id="username" name="username" placeholder="Name"/>
+              </FormGroup>
+              <FormGroup>
+                <Input type="email" id="email" name="email" placeholder="Email"/>
+              </FormGroup>
+              <FormGroup>
+                <Input type="password" id="pass" name="pass" placeholder="Password"/>
+              </FormGroup>
+              <Button onClick={register}>Register</Button> &emsp;
+              <Link to="/">Back</Link>
+            </Form>
+          </div>);
 }

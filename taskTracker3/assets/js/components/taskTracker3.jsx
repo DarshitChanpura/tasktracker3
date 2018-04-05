@@ -35,15 +35,16 @@ let TaskTracker = connect((state) => state)((props) => {
                 } />
                 <Route path="/tasklist" exact={true} render={() =>
                   <div>
-                    <TaskForm users={props.users} />
-                    <TaskList tasks={props.tasks} />
+                    <TaskForm users={props.users} tasks={props.tasks}/>
+
                   </div>
                 } />
                 <Route path="/users" exact={true} render={() =>
-                  <Users users={props.users} />
+                  <Users users={props.users} login={props.login}/>
                 } />
                 <Route path="/users/:user_id" render={({match}) =>
-                  <TaskList tasks={_.filter(props.tasks, (pp) => {
+                  <TaskList currentUserId={props.token.user_id}
+                    tasks={_.filter(props.tasks, (pp) => {
                       if(pp.user){
                         return match.params.user_id == pp.user.id;
                       }else{
